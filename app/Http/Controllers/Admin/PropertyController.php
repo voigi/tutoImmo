@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\PropertyFormRequest;
 use Illuminate\Http\Request;
+use App\Models\Property;
 
 class PropertyController extends Controller
 {
@@ -11,7 +14,8 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //
+       return view('admin.properties.index', 
+       ['properties' =>Property::orderBy('created_at', 'desc')->paginate(25)]);
     }
 
     /**
@@ -19,15 +23,26 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        //
+        $property = new Property();
+        $property->fill([
+            'surface'=>40,
+            'rooms'=>3,
+            'bedrooms'=>1,
+            'floor'=> 0,
+            'city'=>'Montpellier',
+            'postal_code'=>34000,
+            'sold'=>'false'
+        ]);
+        return view('admin.properties.form', ['property' => $property]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PropertyFormRequest $request)
     {
-        //
+        $property=Property::create($request->validated());
+        return to_route('admin.property.index')->with('success', 'Le bien a été créé');
     }
 
     /**
@@ -35,30 +50,39 @@ class PropertyController extends Controller
      */
     public function show(string $id)
     {
-        //
+        // route('admin.properties.index');
     }
+
+
+
+
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Property $property)
     {
-        //
+        return view(
+            'admin.properties.form',
+            ['property' => $property]
+        );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PropertyFormRequest $request, Property $property)
     {
-        //
+        $property->update($request->validated());
+        return to_route('admin.property.index')->with('success','Le bien a été modifié');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Property $property)
     {
-        //
+        $property->delete();
+        return to_route('admin.property.index')->with('success','Le bien a été supprimé');
     }
 }
