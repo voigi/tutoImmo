@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Property extends Model
 {
@@ -23,4 +24,8 @@ class Property extends Model
         'sold'
         
     ] ;
+    public function options(): BelongsToMany
+    {
+        return $this->belongsToMany(Option::class);
+    }
 }

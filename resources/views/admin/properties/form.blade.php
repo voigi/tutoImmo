@@ -36,18 +36,18 @@
                 ])
             </div>
 
-    </div>
-
-        
-            @include('shared.input',[
+        </div>
 
 
-            "type" => "textarea",
-            "label" => "Description",
-            "name" => "description",
-            "value" => $property->description
-            ])
-        
+        @include('shared.input',[
+
+
+        "type" => "textarea",
+        "label" => "Description",
+        "name" => "description",
+        "value" => $property->description
+        ])
+
 
 
         <div class="row">
@@ -90,26 +90,34 @@
             "value" => $property->postal_code
             ])
         </div>
-
-        @include('shared.checkbox',[
-        "label" => "Vendu",
-        "name" => "sold",
-        "value" => $property->sold
+        @include('shared.select',[
+        "label" => "Options",
+        "name" => "options",
+        "value" => $property->options()->pluck('id'),
+        "multiple"=> true
         ])
-        <div>
-                   <button class="btn btn-primary mt-3">
-            @if ($property->exists)
-            Modifier
-            @else
-            Créer
+     
+        <div class="row">
+            @include('shared.checkbox',[
+            "label" => "Vendu",
+            "name" => "sold",
+            "value" => $property->sold,
+            "options" => $options
+            ])
+            <div>
+                <button class="btn btn-primary mt-3">
+                    @if ($property->exists)
+                    Modifier
+                    @else
+                    Créer
 
-            @endif
-        </button> 
+                    @endif
+                </button>
+            </div>
+
         </div>
 
-</div>
 
+    </form>
 
-</form>
-
-@endsection
+    @endsection
