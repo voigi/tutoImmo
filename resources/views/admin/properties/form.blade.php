@@ -1,6 +1,6 @@
 @extends('admin.admin')
 
-@section('title',$property->exists ? "Editer un Bien " : "Créer un Bien")
+@section('title', isset($property) ? "Editer un Bien" : "Créer un Bien")
 
 @section('content')
 
@@ -8,7 +8,7 @@
 
 <div>
 
-    <form class="vstack gap-2" action="{{route($property->exists ? "admin.property.update":"admin.property.store",$property)}}" method="POST">
+    <form class="vstack gap-2" action="{{route(isset($property) ? "admin.property.update":"admin.property.store",$property)}}" method="post">
 
         @csrf
         @method($property->exists ? "PUT" : "POST")
@@ -18,7 +18,7 @@
             "class" => "col",
             "label" => "Titre",
             "name" => "title",
-            "value" => $property->title
+            "value" =>$property->title            
             ])
             <div class="col row">
                 @include('shared.input',[

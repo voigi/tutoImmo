@@ -7,6 +7,7 @@ use App\Http\Requests\Admin\PropertyFormRequest;
 use App\Models\Option;
 use Illuminate\Http\Request;
 use App\Models\Property;
+use Illuminate\Support\Facades\Log;
 
 class PropertyController extends Controller
 {
@@ -69,11 +70,17 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
+        $title = $property->title;
+        Log::debug('Entering edit method');
         return view(
-            'admin.properties.form',
-            ['property' => $property,
-            'options'=>  Option::pluck('name','id'),
-            ]
+           'admin.properties.form',
+            [
+            
+         
+           'test', ['title' => $title],
+           'property' => $property,
+           'options'=>  Option::pluck('name','id'),
+           ]
         );
     }
 

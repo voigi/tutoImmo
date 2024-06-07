@@ -15,6 +15,8 @@
                 <th>Surface</th>
                 <th>Prix</th>
                 <th>Ville</th>
+                <th>Options</th>
+                <th>Vendu ?</th>
                 <th class="text-end">Actions</th>
             </tr>
         </thead>
@@ -25,6 +27,18 @@
                     <td>{{ $property->surface }}m²</td>
                     <td>{{number_format($property->price,thousands_separator:' ')}}</td>
                     <td>{{ $property->city }}</td>
+                    <td> @foreach($property->options as $option) <span class="badge bg-secondary"> {{ $option->name }} </span> @if(!$loop->last)@endif @endforeach </td>
+                     
+                       
+                        
+                 
+                    <td>
+                        @if ($property->sold)
+                            <span class="badge bg-success">Vendu</span>
+                        @else
+                            <span class="badge bg-danger">En cours de vente</span>
+                        @endif
+                    </td>
                     <td>
 
                         <div class="d-flex gap-2 justify-content-end">
