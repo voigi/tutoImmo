@@ -1,6 +1,6 @@
 @extends('admin.admin')
 
-@section('title', isset($property) ? "Editer un Bien" : "Créer un Bien")
+@section('title', $property->exists ? "Editer un Bien" : "Créer un Bien")
 
 @section('content')
 
@@ -8,7 +8,7 @@
 
 <div>
 
-    <form class="vstack gap-2" action="{{route(isset($property) ? "admin.property.update":"admin.property.store",$property)}}" method="post">
+    <form class="vstack gap-2" action="{{route($property->exists ? "admin.property.update":"admin.property.store",$property)}}" method="post">
 
         @csrf
         @method($property->exists ? "PUT" : "POST")
@@ -99,6 +99,7 @@
      
         <div class="row">
             @include('shared.checkbox',[
+           
             "label" => "Vendu",
             "name" => "sold",
             "value" => $property->sold,

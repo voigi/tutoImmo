@@ -16,8 +16,10 @@ class PropertyController extends Controller
      */
     public function index()
     {
-       return view('admin.properties.index', 
-       ['properties' =>Property::orderBy('created_at', 'desc')->paginate(25)]);
+        return view(
+            'admin.properties.index',
+            ['properties' => Property::orderBy('created_at', 'desc')->paginate(25)]
+        );
     }
 
     /**
@@ -27,20 +29,20 @@ class PropertyController extends Controller
     {
         $property = new Property();
         $property->fill([
-            'surface'=>40,
-            'rooms'=>3,
-            'bedrooms'=>1,
-            'floor'=> 0,
-            'city'=>'Montpellier',
-            'postal_code'=>34000,
-            'sold'=>'false'
+            'surface' => 40,
+            'rooms' => 3,
+            'bedrooms' => 1,
+            'floor' => 0,
+            'city' => 'Montpellier',
+            'postal_code' => 34000,
+            'sold' => 'false'
         ]);
-       
+
         return view('admin.properties.form', [
-            
-        'property' => $property,
-       'options'=>  Option::pluck('name','id'),
-    ]);
+
+            'property' => $property,
+            'options' =>  Option::pluck('name', 'id'),
+        ]);
     }
 
     /**
@@ -48,7 +50,7 @@ class PropertyController extends Controller
      */
     public function store(PropertyFormRequest $request)
     {
-        $property=Property::create($request->validated());
+        $property = Property::create($request->validated());
         $property->options()->sync($request->validated('options'));
         return to_route('admin.property.index')->with('success', 'Le bien a été créé');
     }
@@ -70,17 +72,14 @@ class PropertyController extends Controller
      */
     public function edit(Property $property)
     {
-        $title = $property->title;
-        Log::debug('Entering edit method');
+
+
         return view(
-           'admin.properties.form',
+            'admin.properties.form',
             [
-            
-         
-           'test', ['title' => $title],
-           'property' => $property,
-           'options'=>  Option::pluck('name','id'),
-           ]
+                'property' => $property,
+                'options' =>  Option::pluck('name', 'id'),
+            ]
         );
     }
 
@@ -90,9 +89,9 @@ class PropertyController extends Controller
     public function update(PropertyFormRequest $request, Property $property)
     {
         $property->options()->sync($request->validated('options'));
-       
+
         $property->update($request->validated());
-        return to_route('admin.property.index')->with('success','Le bien a été modifié');
+        return to_route('admin.property.index')->with('success', 'Le bien a été modifié');
     }
 
     /**
@@ -101,6 +100,6 @@ class PropertyController extends Controller
     public function destroy(Property $property)
     {
         $property->delete();
-        return to_route('admin.property.index')->with('success','Le bien a été supprimé');
+        return to_route('admin.property.index')->with('success', 'Le bien a été supprimé');
     }
 }
