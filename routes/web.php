@@ -24,10 +24,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('option', \App\Http\Controllers\Admin\OptionController::class)->except(['show']);
 
 });
-// routes/web.php
+Route::post('/biens/{property}/contact', [\App\Http\Controllers\PropertyController::class, 'contact'])->name('property.contact')->where([
+    'property' => $idRegex,
+]);
 
-Route::get('admin/test', function () {
-    $property = Property::find(2);
-
-    return app()->make(PropertyController::class)->edit($property);
-});
+   
